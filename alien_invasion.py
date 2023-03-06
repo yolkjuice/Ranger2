@@ -45,7 +45,6 @@ class AlienInvsion(object):
 				# 按下
 				elif event.type == pygame.KEYDOWN:
 					self._cehck_keydown_events(event)
-
 				# 松开
 				elif event.type == pygame.KEYUP:
 					self._cehck_keyup_events(event)
@@ -66,16 +65,16 @@ class AlienInvsion(object):
 		# 右移
 		if event.key == pygame.K_RIGHT:
 			self.ship.move_right = True
-
 		# 左移
 		elif event.key == pygame.K_LEFT:
 			self.ship.move_left = True
-
+		# 按Q键退出
+		elif event.key == pygame.K_KP0:
+			sys.exit()
 
 	def _cehck_keyup_events(self, event):
 		if event.key == pygame.K_RIGHT:
 			self.ship.move_right = False
-
 		elif event.key == pygame.K_LEFT:
 			self.ship.move_left = False
 
