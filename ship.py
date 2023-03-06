@@ -8,6 +8,7 @@ class Ship(object):
 		super(Ship, self).__init__()
 		# 用主屏幕做参考
 		self.screen = ai_game.screen
+		self.settings = ai_game.settings
 		self.screen_rect = ai_game.screen.get_rect()
 
 		# 加载飞船图像并获取其外接矩形
@@ -21,6 +22,9 @@ class Ship(object):
 		self.move_right = False
 		self.move_left = False
 
+		# 飞船移动位置
+		self.x = float(self.rect.x)
+
 	def blitme(self):
 		"""在指定位置绘制飞船"""
 		self.screen.blit(self.image, self.rect)
@@ -29,11 +33,15 @@ class Ship(object):
 
 	def update(self):
 		"""根据移动标志调整飞船位置"""
-		if self.move_right == True:
-			self.rect.x += 1
+		# 先更新飞船移动位置
+		if self.move_right and self.rect.right < self.screen_rect.right:
+			self.x += self.settings.ship_speed
 
-		if self.move_left == True:
-			self.rect.x -= 1
+		if self.move_left and self.rect.left > 0:
+			self.x -= self.settings.ship_speed
+
+		# 再更新对象rect.x
+		self.rect.x = self.x
 
 # self.image 对应飞船的图像
 # self.rect 对应飞船占据的空间
