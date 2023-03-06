@@ -20,7 +20,7 @@ class Ship(object):
 	def blitme(self):
 		"""在指定位置绘制飞船"""
 		self.screen.blit(self.image, self.rect)
-		self.screen.fill(230, 0, 0)
+		# self.screen.fill(230, 0, 0)
 
 # self.image 对应飞船的图像
 # self.rect 对应飞船占据的空间
