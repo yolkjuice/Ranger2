@@ -21,9 +21,12 @@ class Ship(object):
 		# 移动标志
 		self.move_right = False
 		self.move_left = False
+		self.move_top = False
+		self.move_bottom = False
 
 		# 飞船移动位置
 		self.x = float(self.rect.x)
+		self.y = float(self.rect.y)
 
 	def blitme(self):
 		"""在指定位置绘制飞船"""
@@ -40,8 +43,15 @@ class Ship(object):
 		if self.move_left and self.rect.left > 0:
 			self.x -= self.settings.ship_speed
 
+		if self.move_top and self.rect.top > self.screen_rect.top:
+			self.y -= self.settings.ship_speed
+
+		if self.move_bottom and self.rect.bottom < self.screen_rect.bottom:
+			self.y += self.settings.ship_speed
+
 		# 再更新对象rect.x
 		self.rect.x = self.x
+		self.rect.y = self.y
 
 # self.image 对应飞船的图像
 # self.rect 对应飞船占据的空间

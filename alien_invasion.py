@@ -1,5 +1,4 @@
 import sys
-
 import pygame
 
 from settings import Settings
@@ -17,6 +16,10 @@ class AlienInvsion(object):
 		# 初始化屏幕
 		self.screen = pygame.display.set_mode((
 			self.settings.screen_width, self.settings.screen_height))
+		# 全屏
+		# self.screen = pygame.display.set_mode((0,0), pygame.FULLSCREEN)
+		# self.settings.width = self.screen.get_rect().width
+		# self.settings.width = self.screen.get_rect().height
 
 		# 窗口标题
 		pygame.display.set_caption("Aline Invasion")
@@ -68,7 +71,13 @@ class AlienInvsion(object):
 		# 左移
 		elif event.key == pygame.K_LEFT:
 			self.ship.move_left = True
-		# 按Q键退出
+		# 上移
+		elif event.key == pygame.K_UP:
+			self.ship.move_top = True
+		# 下移
+		elif event.key == pygame.K_DOWN:
+			self.ship.move_bottom = True
+		# 按数字键盘0键退出
 		elif event.key == pygame.K_KP0:
 			sys.exit()
 
@@ -77,6 +86,10 @@ class AlienInvsion(object):
 			self.ship.move_right = False
 		elif event.key == pygame.K_LEFT:
 			self.ship.move_left = False
+		elif event.key == pygame.K_UP:
+			self.ship.move_top = False
+		elif event.key == pygame.K_DOWN:
+			self.ship.move_bottom = False
 
 
 if __name__ == '__main__':
