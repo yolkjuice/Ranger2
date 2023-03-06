@@ -17,10 +17,23 @@ class Ship(object):
 		# 对于每艘新飞船，一开始都放在屏幕低端之间
 		self.rect.midbottom = self.screen_rect.midbottom
 
+		# 移动标志
+		self.move_right = False
+		self.move_left = False
+
 	def blitme(self):
 		"""在指定位置绘制飞船"""
 		self.screen.blit(self.image, self.rect)
 		# self.screen.fill(230, 0, 0)
+
+
+	def update(self):
+		"""根据移动标志调整飞船位置"""
+		if self.move_right == True:
+			self.rect.x += 1
+
+		if self.move_left == True:
+			self.rect.x -= 1
 
 # self.image 对应飞船的图像
 # self.rect 对应飞船占据的空间
