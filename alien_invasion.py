@@ -37,27 +37,18 @@ class AlienInvsion(object):
 	def _check_event(self):
 			# 监视键盘和鼠标事件。
 			for event in pygame.event.get():
+				# 退出
 				if event.type == pygame.QUIT:
 					sys.exit()
 
 				# 移动飞船
 				# 按下
 				elif event.type == pygame.KEYDOWN:
-					# 右移
-					if event.key == pygame.K_RIGHT:
-						self.ship.move_right = True
-
-					# 左移
-					elif event.key == pygame.K_LEFT:
-						self.ship.move_left = True
+					self._cehck_keydown_events(event)
 
 				# 松开
 				elif event.type == pygame.KEYUP:
-					if event.key == pygame.K_RIGHT:
-						self.ship.move_right = False
-
-					elif event.key == pygame.K_LEFT:
-						self.ship.move_left = False
+					self._cehck_keyup_events(event)
 
 
 	def _update_screen(self):
@@ -69,6 +60,24 @@ class AlienInvsion(object):
 
 			# 让最近绘制的屏幕可见
 			pygame.display.flip()
+
+
+	def _cehck_keydown_events(self, event):
+		# 右移
+		if event.key == pygame.K_RIGHT:
+			self.ship.move_right = True
+
+		# 左移
+		elif event.key == pygame.K_LEFT:
+			self.ship.move_left = True
+
+
+	def _cehck_keyup_events(self, event):
+		if event.key == pygame.K_RIGHT:
+			self.ship.move_right = False
+
+		elif event.key == pygame.K_LEFT:
+			self.ship.move_left = False
 
 
 if __name__ == '__main__':
