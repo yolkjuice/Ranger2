@@ -16,4 +16,4 @@ class Settings(object):
 		self.bullet_speed = 0.3
 		self.bullet_width = 3
 		self.bullet_height = 15
-		self.bullet_color = (60, 60, 60)
+		self.bullet_color = (100, 100, 100)

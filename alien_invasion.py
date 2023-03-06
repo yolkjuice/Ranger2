@@ -3,6 +3,7 @@ import pygame
 
 from settings import Settings
 from ship import Ship
+from bullet import Bullet
 
 class AlienInvsion(object):
 	"""管理游戏资源和行为的类"""
@@ -27,6 +28,9 @@ class AlienInvsion(object):
 		# 初始化飞船
 		self.ship = Ship(self)
 
+		# 初始化子弹编组
+		self.bullets = pygame.sprite.Group()
+
 
 	def run_game(self):
 		"""开始游戏的主循环"""
@@ -34,6 +38,7 @@ class AlienInvsion(object):
 			# run_game重构为两个辅助方法，以'_'开头
 			self._check_event()
 			self.ship.update()
+			self.bullets.update()
 			self._update_screen()
 
 
@@ -60,6 +65,10 @@ class AlienInvsion(object):
 			# 绘制飞船
 			self.ship.blitme()
 
+			# 绘制所有子弹
+			for bullet in self.bullets.sprites():
+				bullet.draw_bullet()
+
 			# 让最近绘制的屏幕可见
 			pygame.display.flip()
 
@@ -77,7 +86,9 @@ class AlienInvsion(object):
 		# 下移
 		elif event.key == pygame.K_DOWN:
 			self.ship.move_bottom = True
-		# 按数字键盘0键退出
+		elif event.key == pygame.K_SPACE:
+			self._fire_bullet()
+		# 按数字键盘033   键退出
 		elif event.key == pygame.K_KP0:
 			sys.exit()
 
@@ -90,6 +101,12 @@ class AlienInvsion(object):
 			self.ship.move_top = False
 		elif event.key == pygame.K_DOWN:
 			self.ship.move_bottom = False
+
+
+	def _fire_bullet(self):
+		"""创建一颗新子弹并加入编组"""
+		new_bullet = Bullet(self)
+		self.bullets.add(new_bullet)
 
 
 if __name__ == '__main__':
