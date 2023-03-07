@@ -38,7 +38,7 @@ class AlienInvsion(object):
 			# run_game重构为两个辅助方法，以'_'开头
 			self._check_event()
 			self.ship.update()
-			self.bullets.update()
+			self._update_bullets()
 			self._update_screen()
 
 
@@ -56,6 +56,18 @@ class AlienInvsion(object):
 				# 松开
 				elif event.type == pygame.KEYUP:
 					self._cehck_keyup_events(event)
+
+
+	def _update_bullets(self):
+		"""更新子弹的位置并删除消失的子弹"""
+		# 更新子弹的位置
+		self.bullets.update()
+
+		# 删除消失的子弹
+		for bullet in self.bullets.copy():
+			if bullet.rect.bottom <= 0:
+				self.bullets.remove(bullet)
+		# print(len(self.bullets))
 
 
 	def _update_screen(self):
@@ -105,8 +117,9 @@ class AlienInvsion(object):
 
 	def _fire_bullet(self):
 		"""创建一颗新子弹并加入编组"""
-		new_bullet = Bullet(self)
-		self.bullets.add(new_bullet)
+		if len(self.bullets) < self.settings.bullet_allowed:
+			new_bullet = Bullet(self)
+			self.bullets.add(new_bullet)
 
 
 if __name__ == '__main__':
