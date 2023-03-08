@@ -4,6 +4,7 @@ import pygame
 from settings import Settings
 from ship import Ship
 from bullet import Bullet
+from alien import Alien
 
 class AlienInvsion(object):
 	"""管理游戏资源和行为的类"""
@@ -30,6 +31,11 @@ class AlienInvsion(object):
 
 		# 初始化子弹编组
 		self.bullets = pygame.sprite.Group()
+
+		# 初始化外星人编组
+		self.aliens = pygame.sprite.Group()
+
+		self._create_fleet()
 
 
 	def run_game(self):
@@ -70,16 +76,24 @@ class AlienInvsion(object):
 		# print(len(self.bullets))
 
 
+	def _create_fleet(self):
+		"""创建外星人群"""
+		# 创建一个外星人
+		alien = Alien(self)
+		self.aliens.add(alien)
+		pass
+
+
 	def _update_screen(self):
 			# 填充屏幕
 			self.screen.fill(self.settings.bg_color)
-
 			# 绘制飞船
 			self.ship.blitme()
-
 			# 绘制所有子弹
 			for bullet in self.bullets.sprites():
 				bullet.draw_bullet()
+			# 绘制外星人群
+			self.aliens.draw(self.screen)
 
 			# 让最近绘制的屏幕可见
 			pygame.display.flip()
