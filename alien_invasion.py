@@ -34,7 +34,6 @@ class AlienInvsion(object):
 
 		# 初始化外星人编组
 		self.aliens = pygame.sprite.Group()
-
 		self._create_fleet()
 
 
@@ -45,7 +44,33 @@ class AlienInvsion(object):
 			self._check_event()
 			self.ship.update()
 			self._update_bullets()
+			self._update_aliens()
 			self._update_screen()
+
+
+	def _update_aliens(self):
+		"""检测是否有外星人位于屏幕边缘
+			更新所有外星人的位置"""
+		self._check_fleet_eages()
+		self.aliens.update()
+		pass
+
+
+	def _check_fleet_eages(self):
+		"""有外星人到达屏幕边缘时采取措施"""
+		for alien in self.aliens.sprites():
+			if alien.check_eages():
+				self._change_fleet_direction()
+				break
+		pass
+
+
+	def _change_fleet_direction(self):
+		"""将外星人群下移并改变左右方向"""
+		for alien in self.aliens.sprites():
+			alien.rect.y += self.settings.fleet_drop_speed
+		self.settings.fleet_direction *= -1
+		pass
 
 
 	def _check_event(self):
