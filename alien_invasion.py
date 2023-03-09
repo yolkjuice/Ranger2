@@ -100,6 +100,11 @@ class AlienInvsion(object):
 				self.bullets.remove(bullet)
 		# print(len(self.bullets))
 
+		# 检查是否有子弹和外星人碰撞
+		# 	如果有，删除相应子弹和外星人
+		collisions = pygame.sprite.groupcollide(
+			self.bullets, self.aliens, True, True)
+
 
 	def _create_fleet(self):
 		"""创建外星人群"""
