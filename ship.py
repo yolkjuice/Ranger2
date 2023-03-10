@@ -53,6 +53,13 @@ class Ship(object):
 		self.rect.x = self.x
 		self.rect.y = self.y
 
+
+	def center_ship(self):
+		"""让飞船在屏幕底端居中"""
+		self.rect.midbottom = self.screen_rect.midbottom
+		self.x = float(self.rect.x)
+		pass
+
 # self.image 对应飞船的图像
 # self.rect 对应飞船占据的空间
 # 	占据空间又有大小、形状、位置

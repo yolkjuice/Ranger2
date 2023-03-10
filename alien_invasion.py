@@ -1,7 +1,9 @@
 import sys
+from time import sleep
 import pygame
 
 from settings import Settings
+from gamestats import GameStats
 from ship import Ship
 from bullet import Bullet
 from alien import Alien
@@ -25,6 +27,9 @@ class AlienInvsion(object):
 
 		# 窗口标题
 		pygame.display.set_caption("Aline Invasion")
+
+		# 创建一个存储游戏统计信息的实例
+		self.stats = GameStats(self)
 
 		# 初始化飞船
 		self.ship = Ship(self)
@@ -53,7 +58,29 @@ class AlienInvsion(object):
 			更新所有外星人的位置"""
 		self._check_fleet_eages()
 		self.aliens.update()
+
+		# 检测外星人和飞船碰撞
+		if pygame.sprite.spritecollideany(self.ship, self.aliens):
+			self._ship_hit()
 		pass
+
+
+	def _ship_hit(self):
+		"""响应外星人和飞船碰撞"""
+
+		# 飞船剩余数量-1
+		self.stats.ships_left -= 1
+
+		# 清空子弹和外星人
+		self.bullets.empty()
+		self.aliens.empty()
+
+		# 创建新的外星人并将飞船放在屏幕底端
+		self._create_fleet()
+		self.ship.center_ship()
+
+		# 暂停
+		sleep(0.5)
 
 
 	def _check_fleet_eages(self):
