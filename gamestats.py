@@ -5,6 +5,7 @@ class GameStats(object):
 		"""初始化游戏信息"""
 		super(GameStats, self).__init__()
 		self.settings = ai_game.settings
+		self.game_active = True
 		self.reset_stats()
 		
 

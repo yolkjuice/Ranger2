@@ -45,11 +45,14 @@ class AlienInvsion(object):
 	def run_game(self):
 		"""开始游戏的主循环"""
 		while True:
-			# run_game重构为两个辅助方法，以'_'开头
+			# run_game重构为多个辅助方法，以'_'开头
 			self._check_event()
-			self.ship.update()
-			self._update_bullets()
-			self._update_aliens()
+
+			if self.stats.game_active:
+				self.ship.update()
+				self._update_bullets()
+				self._update_aliens()
+
 			self._update_screen()
 
 
@@ -62,25 +65,40 @@ class AlienInvsion(object):
 		# 检测外星人和飞船碰撞
 		if pygame.sprite.spritecollideany(self.ship, self.aliens):
 			self._ship_hit()
+
+		# 检查是否有外星人到达底部
+		self._check_aliens_bottom()
+		pass
+
+
+	def _check_aliens_bottom(self):
+		screen_rect = self.screen.get_rect()
+		for alien in self.aliens.sprites():
+			if alien.rect.bottom >= screen_rect.bottom:
+				# 像飞船被撞一样处理
+				self._ship_hit()
 		pass
 
 
 	def _ship_hit(self):
 		"""响应外星人和飞船碰撞"""
 
-		# 飞船剩余数量-1
-		self.stats.ships_left -= 1
+		if self.stats.ships_left > 0:
+			# 飞船剩余数量-1
+			self.stats.ships_left -= 1
 
-		# 清空子弹和外星人
-		self.bullets.empty()
-		self.aliens.empty()
+			# 清空子弹和外星人
+			self.bullets.empty()
+			self.aliens.empty()
 
-		# 创建新的外星人并将飞船放在屏幕底端
-		self._create_fleet()
-		self.ship.center_ship()
+			# 创建新的外星人并将飞船放在屏幕底端
+			self._create_fleet()
+			self.ship.center_ship()
 
-		# 暂停
-		sleep(0.5)
+			# 暂停
+			sleep(0.5)
+		else:
+			self.stats.game_active = False
 
 
 	def _check_fleet_eages(self):
