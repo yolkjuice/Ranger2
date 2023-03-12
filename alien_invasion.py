@@ -7,6 +7,7 @@ from gamestats import GameStats
 from ship import Ship
 from bullet import Bullet
 from alien import Alien
+from button import Button
 
 class AlienInvsion(object):
 	"""管理游戏资源和行为的类"""
@@ -40,6 +41,9 @@ class AlienInvsion(object):
 		# 初始化外星人编组
 		self.aliens = pygame.sprite.Group()
 		self._create_fleet()
+
+		# 创建一个Play按钮
+		self.play_button = Button(self, 'Play')
 
 
 	def run_game(self):
@@ -132,6 +136,28 @@ class AlienInvsion(object):
 				# 松开
 				elif event.type == pygame.KEYUP:
 					self._cehck_keyup_events(event)
+				# 鼠标点击
+				elif event.type == pygame.MOUSEBUTTONDOWN:
+					mouse_pos = pygame.mouse.get_pos()
+					self._check_play_button(mouse_pos)
+
+
+	def _check_play_button(self, mouse_pos):
+		"""在点击Play按钮时开始新游戏"""
+		button_clicked = self.play_button.rect.collidepoint(mouse_pos)
+		# 非活动状态才允许按Play按钮
+		if button_clicked and not self.stats.game_active:
+			# 重置游戏统计信息
+			self.stats.reset_stats()
+			self.stats.game_active = True
+
+			# 清空外星人和子弹
+			self.aliens.empty()
+			self.bullets.empty()
+
+			# 绘制新外星人群并居中放置飞船
+			self._create_fleet()
+			self.ship.center_ship()
 
 
 	def _update_bullets(self):
@@ -204,6 +230,10 @@ class AlienInvsion(object):
 				bullet.draw_bullet()
 			# 绘制外星人群
 			self.aliens.draw(self.screen)
+
+			# 非活动状态绘制Play按钮
+			if not self.stats.game_active:
+				self.play_button.draw_button()
 
 			# 让最近绘制的屏幕可见
 			pygame.display.flip()

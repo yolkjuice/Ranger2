@@ -5,7 +5,8 @@ class GameStats(object):
 		"""初始化游戏信息"""
 		super(GameStats, self).__init__()
 		self.settings = ai_game.settings
-		self.game_active = True
+		# 让游戏开始前/结束 处于非活动状态
+		self.game_active = False
 		self.reset_stats()
 		
 
