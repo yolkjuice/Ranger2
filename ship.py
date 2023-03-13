@@ -12,7 +12,7 @@ class Ship(object):
 		self.screen_rect = ai_game.screen.get_rect()
 
 		# 加载飞船图像并获取其外接矩形
-		self.image = pygame.image.load('images/space-158234_1280.bmp')
+		self.image = pygame.image.load('images/ship.bmp')
 		self.rect = self.image.get_rect()
 
 		# 对于每艘新飞船，一开始都放在屏幕低端之间

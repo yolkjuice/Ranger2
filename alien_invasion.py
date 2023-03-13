@@ -8,6 +8,7 @@ from ship import Ship
 from bullet import Bullet
 from alien import Alien
 from button import Button
+from scoreboard import ScoreBoard
 
 class AlienInvsion(object):
 	"""管理游戏资源和行为的类"""
@@ -44,6 +45,9 @@ class AlienInvsion(object):
 
 		# 创建一个Play按钮
 		self.play_button = Button(self, 'Play')
+
+		# 创建一个记分牌
+		self.sb = ScoreBoard(self)
 
 
 	def run_game(self):
@@ -134,10 +138,10 @@ class AlienInvsion(object):
 				# 移动飞船
 				# 按下
 				elif event.type == pygame.KEYDOWN:
-					self._cehck_keydown_events(event)
+					self._check_keydown_events(event)
 				# 松开
 				elif event.type == pygame.KEYUP:
-					self._cehck_keyup_events(event)
+					self._check_keyup_events(event)
 				# 鼠标点击
 				elif event.type == pygame.MOUSEBUTTONDOWN:
 					mouse_pos = pygame.mouse.get_pos()
@@ -154,6 +158,7 @@ class AlienInvsion(object):
 			# 重置游戏统计信息
 			self.stats.reset_stats()
 			self.stats.game_active = True
+			self.sb.prep_score()
 
 			# 清空外星人和子弹
 			self.aliens.empty()
@@ -186,6 +191,12 @@ class AlienInvsion(object):
 		# 	如果有，删除相应子弹和外星人
 		collisions = pygame.sprite.groupcollide(
 			self.bullets, self.aliens, True, True)
+
+		if collisions:
+			for aliens in collisions.values():
+				self.stats.score += self.settings.alien_points * len(aliens)
+			self.sb.prep_score()
+			self.sb.check_high_score()
 
 		if not self.aliens:
 			# 删除所有子弹并生成新的外星人群
@@ -239,6 +250,8 @@ class AlienInvsion(object):
 				bullet.draw_bullet()
 			# 绘制外星人群
 			self.aliens.draw(self.screen)
+			# 绘制记分牌
+			self.sb.show_score()
 
 			# 非活动状态绘制Play按钮
 			if not self.stats.game_active:
@@ -248,7 +261,7 @@ class AlienInvsion(object):
 			pygame.display.flip()
 
 
-	def _cehck_keydown_events(self, event):
+	def _check_keydown_events(self, event):
 		# 右移
 		if event.key == pygame.K_RIGHT:
 			self.ship.move_right = True
@@ -267,7 +280,7 @@ class AlienInvsion(object):
 		elif event.key == pygame.K_KP0:
 			sys.exit()
 
-	def _cehck_keyup_events(self, event):
+	def _check_keyup_events(self, event):
 		if event.key == pygame.K_RIGHT:
 			self.ship.move_right = False
 		elif event.key == pygame.K_LEFT:

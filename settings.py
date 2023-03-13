@@ -20,11 +20,14 @@ class Settings(object):
 		self.bullet_allowed = 3
 
 		# 外星人设置
-		self.fleet_drop_speed = 8
+		self.fleet_drop_speed = 20
 
 		# 初始化游戏动态设置
 		# 加快游戏节奏的倍数
 		self.speedup_scale = 1.1
+		# 外星人分数的提高速度
+		self.score_scale = 1.5
+
 		self.initialize_dynamic_settings()
 
 
@@ -35,6 +38,9 @@ class Settings(object):
 
 		# 1表示右移，-1表示左移
 		self.fleet_direction = 1
+
+		# 记分
+		self.alien_points = 50
 		pass
 
 
@@ -43,4 +49,6 @@ class Settings(object):
 		self.ship_speed *= self.speedup_scale
 		self.bullet_speed *= self.speedup_scale
 		self.alien_speed *= self.speedup_scale
+		self.alien_points = int(self.alien_points * self.score_scale)
+		# print(self.alien_points)
 		pass

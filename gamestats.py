@@ -7,9 +7,12 @@ class GameStats(object):
 		self.settings = ai_game.settings
 		# 让游戏开始前/结束 处于非活动状态
 		self.game_active = False
+		# 最高分，无需重置
+		self.high_score = 0
 		self.reset_stats()
 		
 
 	def reset_stats(self):
 		"""初始化游戏期间可能变化的统计信息"""
 		self.ships_left = self.settings.ship_limit
+		self.score = 0
