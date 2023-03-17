@@ -159,6 +159,8 @@ class AlienInvsion(object):
 			self.stats.reset_stats()
 			self.stats.game_active = True
 			self.sb.prep_score()
+			self.sb.prep_level()
+
 
 			# 清空外星人和子弹
 			self.aliens.empty()
@@ -204,6 +206,8 @@ class AlienInvsion(object):
 			self._create_fleet()
 			# 提高游戏等级
 			self.settings.increase_speed()
+			self.stats.level += 1
+			self.sb.prep_level()
 		pass
 
 
