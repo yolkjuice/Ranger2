@@ -1,6 +1,7 @@
 import pygame
+from pygame.sprite import Sprite
 
-class Ship(object):
+class Ship(Sprite):
 	"""管理飞船的类"""
 
 	def __init__(self, ai_game):
@@ -58,6 +59,7 @@ class Ship(object):
 		"""让飞船在屏幕底端居中"""
 		self.rect.midbottom = self.screen_rect.midbottom
 		self.x = float(self.rect.x)
+		self.y = float(self.rect.y)
 		pass
 
 # self.image 对应飞船的图像

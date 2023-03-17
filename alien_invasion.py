@@ -1,6 +1,7 @@
 import sys
 from time import sleep
 import pygame
+import json
 
 from settings import Settings
 from gamestats import GameStats
@@ -92,8 +93,9 @@ class AlienInvsion(object):
 		"""响应外星人和飞船碰撞"""
 
 		if self.stats.ships_left > 0:
-			# 飞船剩余数量-1
+			# 飞船剩余数量-1并更新剩余飞船
 			self.stats.ships_left -= 1
+			self.sb.prep_ships()
 
 			# 清空子弹和外星人
 			self.bullets.empty()
@@ -133,6 +135,7 @@ class AlienInvsion(object):
 			for event in pygame.event.get():
 				# 退出
 				if event.type == pygame.QUIT:
+					self._save_high_score()
 					sys.exit()
 
 				# 移动飞船
@@ -148,6 +151,16 @@ class AlienInvsion(object):
 					self._check_play_button(mouse_pos)
 
 
+	def _save_high_score(self):
+		filename = 'high_score.json'
+		try:
+			with open(filename, 'w') as file_object:
+				json.dump(self.stats.high_score, file_object)
+		except FileNotFoundError as e:
+			raise
+		pass
+
+
 	def _check_play_button(self, mouse_pos):
 		"""在点击Play按钮时开始新游戏"""
 		button_clicked = self.play_button.rect.collidepoint(mouse_pos)
@@ -160,6 +173,7 @@ class AlienInvsion(object):
 			self.stats.game_active = True
 			self.sb.prep_score()
 			self.sb.prep_level()
+			self.sb.prep_ships()
 
 
 			# 清空外星人和子弹
@@ -280,8 +294,9 @@ class AlienInvsion(object):
 			self.ship.move_bottom = True
 		elif event.key == pygame.K_SPACE:
 			self._fire_bullet()
-		# 按数字键盘033   键退出
+		# 按数字键盘0   键退出
 		elif event.key == pygame.K_KP0:
+			self._save_high_score()
 			sys.exit()
 
 	def _check_keyup_events(self, event):

@@ -1,3 +1,6 @@
+import json
+
+
 class GameStats(object):
 	"""跟踪游戏的统计信息"""
 
@@ -8,7 +11,7 @@ class GameStats(object):
 		# 让游戏开始前/结束 处于非活动状态
 		self.game_active = False
 		# 最高分，无需重置
-		self.high_score = 0
+		self._get_high_score()
 		self.reset_stats()
 		
 
@@ -17,3 +20,14 @@ class GameStats(object):
 		self.ships_left = self.settings.ship_limit
 		self.score = 0
 		self.level = 1
+
+
+	def _get_high_score(self):
+		filename = 'high_score.json'
+		try:
+			with open(filename, 'r') as file_object:
+				self.high_score = json.load(file_object)
+		except FileNotFoundError as e:
+			self.high_score = 0
+			return None
+			raise e
