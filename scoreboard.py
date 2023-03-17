@@ -19,17 +19,19 @@ class ScoreBoard(object):
 		self.text_color = (30, 30, 30)
 		self.font = pygame.font.SysFont(None, 48)
 
+		self.prep_images()
+
+
+	def prep_images(self):
 		# 准备初始得分图像
 		self.prep_score()
-
 		# 准备最高分图像
 		self.prep_high_score()
-
 		# 准备游戏等级图像
 		self.prep_level()
-
 		# 准备剩余飞船图像
 		self.prep_ships()
+		pass
 
 
 	def prep_score(self):
